@@ -12,7 +12,7 @@ const defaultContent: Record<string, string> = {
   'solution.title': 'La Nostra Solució',
   'solution.subtitle': 'Tres línies tecnològiques que definiran el futur de la humanitat.',
   'solution.fusion.title': 'Reactors de Fusió Compactes',
-  'solution.fusion.desc': 'Reactors tokamak de nova generació amb confinament magnètic d\'alta eficiència. Capaços de generar 500 MW amb un consum de deuteri inferior a 1 kg/dia. Temperatura del plasma: fins a 150 milions de °C.',
+  'solution.fusion.desc': 'Reactors helicoidals de nova generació amb confinament magnètic d\'alta eficiència. Capaços de generar 500 MW amb un consum de deuteri inferior a 1 kg/dia. Temperatura del plasma: fins a 150 milions de °C.',
   'solution.rockets.title': 'Propulsió Espacial Avançada',
   'solution.rockets.desc': 'Motors de fusió per a viatges interplanetaris. Impuls específic 10x superior als motors químics actuals. Permet arribar a Mart en 45 dies en lloc de 7 mesos.',
   'solution.dyson.title': 'Eixams de Dyson',

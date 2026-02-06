@@ -1,0 +1,109 @@
+<svg
+  width="450"
+  text-align="center"
+  display="center"
+  justify-content="center"
+  align-items="center"
+  height="120"
+  viewBox="0 0 450 120"
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-label="Helios Dynamics logo">
+
+  <defs>
+    <!-- Gradiente solar -->
+    <radialGradient id="heliosCore" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff3b0"/>
+      <stop offset="40%" stop-color="#ffd166"/>
+      <stop offset="70%" stop-color="#ff9f1c"/>
+      <stop offset="100%" stop-color="#e85d04"/>
+    </radialGradient>
+
+    <!-- Gradiente plasma -->
+    <linearGradient id="plasmaRing" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4cc9f0"/>
+      <stop offset="100%" stop-color="#4361ee"/>
+    </linearGradient>
+
+    <!-- Glass -->
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="white" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="white" stop-opacity="0.05"/>
+    </linearGradient>
+
+    <!-- Sombra profunda -->
+    <filter id="deepShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+
+    <!-- Glow -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Núcleo solar -->
+  <g filter="url(#deepShadow)">
+    <circle cx="60" cy="60" r="38" fill="url(#heliosCore)"/>
+  </g>
+
+  <!-- Anillo tokamak -->
+  <ellipse
+    cx="60"
+    cy="60"
+    rx="52"
+    ry="26"
+    fill="none"
+    stroke="url(#plasmaRing)"
+    stroke-width="4"
+    filter="url(#glow)"
+    transform="rotate(-20 60 60)"/>
+
+  <!-- Campo magnético -->
+  <ellipse
+    cx="60"
+    cy="60"
+    rx="52"
+    ry="26"
+    fill="none"
+    stroke="#4cc9f0"
+    stroke-opacity="0.35"
+    stroke-width="2"
+    transform="rotate(25 60 60)"/>
+
+  <!-- Capa glass -->
+  <ellipse
+    cx="52"
+    cy="48"
+    rx="30"
+    ry="18"
+    fill="url(#glass)"/>
+
+  <!-- Texto principal -->
+  <text
+    x="130"
+    y="64"
+    font-size="40"
+    font-weight="600"
+    font-family="Inter, Segoe UI, Arial, sans-serif"
+    fill="#eaeaea">
+    Helios
+    <tspan fill="#ffd166">Dynamics</tspan>
+  </text>
+
+  <!-- Subtítulo -->
+  <text
+    x="132"
+    y="92"
+    font-size="12"
+    letter-spacing="1.2"
+    font-family="Inter, Segoe UI, Arial, sans-serif"
+    fill="#adb5bd">
+    FUSIÓ · PROPULSIÓ · ENERGIA ESTEL·LAR
+  </text>
+
+</svg>

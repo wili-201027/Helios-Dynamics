@@ -19,7 +19,7 @@ const budgetData = [
 ];
 
 const reactorSpecs = [
-  { spec: 'Tipus', value: 'Tokamak compacte HD-1' },
+  { spec: 'Tipus', value: 'Helicoidal compacte HD-1' },
   { spec: 'Temperatura del plasma', value: '150.000.000 °C' },
   { spec: 'Camp magnètic', value: '13 Tesla (superconductor HTS)' },
   { spec: 'Combustible', value: 'Deuteri-Triti' },
@@ -124,8 +124,8 @@ const TechnicalSheet = () => {
                 <h3 className="font-heading font-bold text-lg">Informe Tècnic Complet</h3>
                 <p className="text-sm text-muted-foreground">Document PDF amb totes les especificacions, diagrames i càlculs detallats del projecte Helios Dynamics.</p>
               </div>
-              <Button className="shrink-0 gap-2">
-                <Download className="w-4 h-4" /> Descarregar PDF
+              <Button className="shrink-0 gap-2" onClick={() => window.open('/technical-document.html', '_blank')}>
+                <Download className="w-4 h-4" /> Veure Document Tècnic
               </Button>
             </div>
           </motion.div>

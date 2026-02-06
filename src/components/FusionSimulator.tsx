@@ -1,11 +1,12 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Slider } from '@/components/ui/slider';
-import { Flame, Gauge, Droplets, Zap, AlertTriangle, CheckCircle } from 'lucide-react';
+import { Flame, Gauge, Droplets, Zap, AlertTriangle, CheckCircle, Activity, Thermometer } from 'lucide-react';
 
 const FusionSimulator = () => {
   const [temp, setTemp] = useState(50);
   const [pressure, setPressure] = useState(50);
   const [deuterium, setDeuterium] = useState(50);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const results = useMemo(() => {
     const tempC = temp * 1.5; // 0–150 million °C
@@ -50,11 +51,13 @@ const FusionSimulator = () => {
 
         {/* Output */}
         <div className="space-y-4">
-          <div className="glass rounded-xl p-4 flex items-center gap-3">
-            <Zap className="w-8 h-8 text-accent" />
+          <div className={`glass rounded-xl p-4 flex items-center gap-3 transition-all duration-300 ${isAnimating ? 'scale-105 shadow-lg shadow-accent/20' : ''}`}>
+            <Zap className={`w-8 h-8 text-accent transition-transform duration-300 ${isAnimating ? 'scale-110' : ''}`} />
             <div>
               <p className="text-xs text-muted-foreground">Sortida Energètica</p>
-              <p className="text-3xl font-heading font-bold text-accent">{results.output} MW</p>
+              <p className={`text-3xl font-heading font-bold text-accent transition-all duration-500 ${isAnimating ? 'text-accent/80' : ''}`}>
+                {results.output} MW
+              </p>
             </div>
           </div>
           <div className="glass rounded-xl p-4 flex items-center gap-3">
@@ -69,15 +72,15 @@ const FusionSimulator = () => {
               </div>
             </div>
           </div>
-          <div className={`glass rounded-xl p-4 flex items-center gap-3 ${results.stable ? 'border-primary/30' : 'border-destructive/30'}`}>
+          <div className={`glass rounded-xl p-4 flex items-center gap-3 transition-all duration-300 ${results.stable ? 'border-primary/30' : 'border-destructive/30'}`}>
             {results.stable ? (
-              <CheckCircle className="w-8 h-8 text-primary" />
+              <CheckCircle className="w-8 h-8 text-primary animate-pulse" />
             ) : (
-              <AlertTriangle className="w-8 h-8 text-destructive" />
+              <AlertTriangle className="w-8 h-8 text-destructive animate-bounce" />
             )}
             <div>
               <p className="text-xs text-muted-foreground">Estat del Plasma</p>
-              <p className={`text-lg font-bold ${results.stable ? 'text-primary' : 'text-destructive'}`}>
+              <p className={`text-lg font-bold transition-colors duration-300 ${results.stable ? 'text-primary' : 'text-destructive'}`}>
                 {results.stable ? 'Estable' : 'Inestable'}
               </p>
             </div>
@@ -87,7 +90,21 @@ const FusionSimulator = () => {
 
       {/* Visual reactor */}
       <div className="flex justify-center py-4">
-        <div className="relative w-40 h-40">
+        <div className="relative w-48 h-48">
+          {/* Background particles */}
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 bg-accent/30 rounded-full animate-twinkle"
+              style={{
+                top: `${20 + Math.random() * 60}%`,
+                left: `${20 + Math.random() * 60}%`,
+                animationDelay: `${i * 0.5}s`,
+                animationDuration: `${2 + Math.random() * 2}s`,
+              }}
+            />
+          ))}
+
           <div
             className="absolute inset-0 rounded-full animate-pulse-glow transition-all duration-500"
             style={{
@@ -103,6 +120,14 @@ const FusionSimulator = () => {
               boxShadow: `0 0 ${results.output / 10}px hsl(${results.stable ? '190 100% 50%' : '0 80% 50%'} / 0.5)`,
             }}
           />
+
+          {/* Energy waves */}
+          {results.stable && (
+            <>
+              <div className="absolute inset-2 rounded-full border border-primary/20 animate-ping" style={{ animationDuration: '2s' }} />
+              <div className="absolute inset-1 rounded-full border border-accent/10 animate-ping" style={{ animationDuration: '3s', animationDelay: '1s' }} />
+            </>
+          )}
         </div>
       </div>
     </div>

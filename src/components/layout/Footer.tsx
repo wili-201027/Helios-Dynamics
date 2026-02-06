@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { Zap, Lock } from 'lucide-react';
 
 const Footer = () => (
-  <footer className="border-t border-border/30 mt-20">
+  <footer className="border-t border-border/30">
     <div className="container mx-auto px-4 py-12">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div>

@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe Tècnic - Projecte Helios Dynamics</title>
+    <link rel="icon" href="./logo.svg" type="image/svg+xml" />
+    <link rel="alternate icon" href="./favicon.ico" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 20mm;
+            background: white;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #0ea5e9;
+        }
+
+        h1 { font-size: 28pt; margin-bottom: 20pt; text-align: center; }
+        h2 { font-size: 20pt; margin: 30pt 0 15pt 0; border-bottom: 2pt solid #0ea5e9; padding-bottom: 5pt; }
+        h3 { font-size: 16pt; margin: 20pt 0 10pt 0; color: #0284c7; }
+        h4 { font-size: 14pt; margin: 15pt 0 8pt 0; }
+
+        .formula {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Times New Roman', serif;
+            text-align: center;
+        }
+
+        .equation {
+            display: block;
+            font-size: 16pt;
+            margin: 10px 0;
+        }
+
+        .equation-label {
+            float: right;
+            font-size: 12pt;
+            color: #64748b;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 11pt;
+        }
+
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #f1f5f9;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .spec-table th:first-child { width: 40%; }
+        .spec-table th:last-child { width: 60%; }
+
+        .budget-table th:nth-child(1) { width: 50%; }
+        .budget-table th:nth-child(2) { width: 30%; }
+        .budget-table th:nth-child(3) { width: 20%; }
+
+        .highlight {
+            background: #dbeafe;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .code {
+            font-family: 'Courier New', monospace;
+            background: #f1f5f9;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 10pt;
+        }
+
+        .diagram {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            font-style: italic;
+            color: #64748b;
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+
+        .toc {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .toc ul { list-style: none; padding: 0; }
+        .toc li { margin: 5px 0; }
+        .toc a { color: #0ea5e9; text-decoration: none; }
+
+        .cover {
+            text-align: center;
+            margin: 50mm 0;
+        }
+
+        .cover h1 {
+            font-size: 36pt;
+            margin: 40pt 0 20pt 0;
+            color: #0f172a;
+        }
+
+        .cover .subtitle {
+            font-size: 18pt;
+            color: #64748b;
+            margin-bottom: 40pt;
+        }
+
+        .cover .date {
+            font-size: 14pt;
+            color: #64748b;
+            margin-top: 40pt;
+        }
+
+        .abstract {
+            background: #f8fafc;
+            border-left: 4px solid #0ea5e9;
+            padding: 20px;
+            margin: 30px 0;
+            font-style: italic;
+        }
+
+        .figure {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .figure img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+        }
+
+        .figure .caption {
+            font-size: 11pt;
+            color: #64748b;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        .sidebar {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .sidebar h4 {
+            color: #92400e;
+            margin-top: 0;
+        }
+
+        @media print {
+            body { margin: 0; padding: 15mm; }
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cover">
+        <h1>Projecte Helios Dynamics</h1>
+        <div class="subtitle">Tecnologia de Fusió Nuclear i Energia Solar Espacial</div>
+        <div class="subtitle">Informe Tècnic Detallat</div>
+        <div class="date">Curs 2025-26</div>
+        <div>Guillem Brascó Farràs</div>
+        <a href="https://agora.xtec.cat/iesperefontdevila/" target="_blank">
+            <img src="https://agora.xtec.cat/iesperefontdevila/wp-content/uploads/usu203/2025/06/inspf300COL.jpg" height="250px" width="250px" alt="IES Pere Fontdevila">
+        </a>
+    </div>
+
+    <div class="toc">
+        <h3>Taula de Continguts</h3>
+        <ul>
+            <li><a href="#abstract">Resum Executiu</a></li>
+            <li><a href="#introduction">1. Introducció</a></li>
+            <li><a href="#physics">2. Física de la Fusió Nuclear</a></li>
+            <li><a href="#reactor">3. Disseny del Reactor HD-1</a></li>
+            <li><a href="#dyson">4. Eixam de Dyson</a></li>
+            <li><a href="#propulsion">5. Propulsió Espacial</a></li>
+            <li><a href="#economics">6. Anàlisi Econòmica</a></li>
+            <li><a href="#timeline">7. Cronograma del Projecte</a></li>
+            <li><a href="#conclusion">8. Conclusions</a></li>
+            <li><a href="#references">Referències</a></li>
+        </ul>
+    </div>
+
+    <div id="abstract" class="abstract">
+        <h3>Resum Executiu</h3>
+        <p>El projecte Helios Dynamics representa un avenç revolucionari en la tecnologia energètica sostenible. Aquest informe detalla el desenvolupament d'un reactor de fusió nuclear compacte (HD-1) i un sistema d'energia solar espacial basat en satèl·lits. El projecte combina física avançada, enginyeria de precisió i economia sostenible per proporcionar energia neta a escala global.</p>
+    </div>
+
+    <h2 id="introduction">1. Introducció</h2>
+
+    <h3>1.1 Context Energètic Global</h3>
+    <p>La demanda energètica mundial creixerà un 30% fins al 2040, segons projeccions de l'Agència Internacional de l'Energia (IEA). Les fonts d'energia convencionals contribueixen significativament al canvi climàtic, amb emissions de CO₂ que amenacen els objectius de l'Acord de París.</p>
+
+    <div class="formula">
+        <div class="equation">E = mc²</div>
+        <div class="equation-label">(1.1) - Equivalència massa-energia</div>
+    </div>
+
+    <p>On <span class="code">E</span> és l'energia alliberada, <span class="code">m</span> és la massa convertida i <span class="code">c</span> és la velocitat de la llum (3×10⁸ m/s).</p>
+
+    <h3>1.2 Objectius del Projecte</h3>
+    <ul>
+        <li>Desenvolupar un reactor de fusió nuclear comercial viable</li>
+        <li>Implementar un sistema d'energia solar espacial</li>
+        <li>Reduir les emissions globals de CO₂ en un 85%</li>
+        <li>Proporcionar energia sostenible a 2.000 milions de persones</li>
+    </ul>
+
+    <h2 id="physics">2. Física de la Fusió Nuclear</h2>
+
+    <h3>2.1 Reacció de Fusió D-T</h3>
+    <p>La fusió nuclear implica la combinació d'àtoms lleugers per formar àtoms més pesants, alliberant energia segons la fórmula:</p>
+
+    <div class="formula">
+        <div class="equation">²H + ³H → ⁴He + n + 17,6 MeV</div>
+        <div class="equation-label">(2.1) - Reacció deuteri-triti</div>
+    </div>
+
+    <h3>2.2 Condicions de Lawson</h3>
+    <p>Per aconseguir la fusió autosostenible, cal satisfer el criteri de Lawson:</p>
+
+    <div class="formula">
+        <div class="equation">nτ_T > 10²⁰ m⁻³·s</div>
+        <div class="equation-label">(2.2) - Criteri de Lawson</div>
+    </div>
+
+    <p>On <span class="code">n</span> és la densitat de partícules, <span class="code">τ</span> és el temps de confinament i <span class="code">T</span> és la temperatura.</p>
+
+    <h3>2.3 Confinament Magnètic</h3>
+    <p>El reactor HD-1 utilitza camps magnètics superconductors per confinar el plasma a temperatures de 150 milions de graus Celsius.</p>
+
+    <div class="formula">
+        <div class="equation">B = μ₀I / (2πr)</div>
+        <div class="equation-label">(2.3) - Camp magnètic toroidal</div>
+    </div>
+
+    <h2 id="reactor">3. Disseny del Reactor HD-1</h2>
+
+    <h3>3.1 Especificacions Tècniques</h3>
+
+    <table class="spec-table">
+        <thead>
+            <tr>
+                <th>Paràmetre</th>
+                <th>Valor</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Tipus de reactor</td><td>Helicoidal compacte</td></tr>
+            <tr><td>Temperatura del plasma</td><td>150.000.000 °C</td></tr>
+            <tr><td>Camp magnètic màxim</td><td>13 T (superconductor HTS)</td></tr>
+            <tr><td>Combustible</td><td>Deuteri-triti (D-T)</td></tr>
+            <tr><td>Potència de sortida</td><td>500 MW elèctrics</td></tr>
+            <tr><td>Factor Q (energia/sortida)</td><td>> 10</td></tr>
+            <tr><td>Eficiència de conversió</td><td>35%</td></tr>
+            <tr><td>Vida útil esperada</td><td>30+ anys</td></tr>
+        </tbody>
+    </table>
+
+    <h3>3.2 Sistema de Confinament</h3>
+    <p>El reactor utilitza una configuració helicoidal avançada amb camps magnètics superconductors de temperatura ambient (HTS). El sistema de bobines genera un camp toroidal de 13 Tesla amb gradients de camp de 100 T/m.</p>
+
+    <div class="formula">
+        <div class="equation">∇ × B = μ₀J</div>
+        <div class="equation-label">(3.1) - Equació de Maxwell per camps magnètics</div>
+    </div>
+
+    <h3>3.3 Sistema de Refredament</h3>
+    <p>El sistema de refredament utilitza heli líquid a 4,2 K per mantenir els superconductors HTS per sota de la seva temperatura crítica.</p>
+
+    <h2 id="dyson">4. Eixam de Dyson</h2>
+
+    <h3>4.1 Principi de Funcionament</h3>
+    <p>L'eixam de Dyson Alpha consisteix en 50 satèl·lits en òrbita solar propera que capturen energia solar i la transmeten a Terra mitjançant microones dirigides.</p>
+
+    <div class="formula">
+        <div class="equation">P = I × A × η</div>
+        <div class="equation-label">(4.1) - Potència solar captada</div>
+    </div>
+
+    <p>On <span class="code">I</span> és la irradiància solar (1366 W/m²), <span class="code">A</span> és l'àrea de captació i <span class="code">η</span> és l'eficiència de conversió.</p>
+
+    <h3>4.2 Especificacions dels Satèl·lits</h3>
+
+    <table class="spec-table">
+        <thead>
+            <tr>
+                <th>Paràmetre</th>
+                <th>Valor</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Massa per unitat</td><td>500 kg</td></tr>
+            <tr><td>Àrea de panells solars</td><td>2.500 m²</td></tr>
+            <tr><td>Potència generada</td><td>1,2 GW</td></tr>
+            <tr><td>Eficiència de conversió</td><td>28%</td></tr>
+            <tr><td>Òrbita</td><td>0,1 UA del Sol</td></tr>
+            <tr><td>Freqüència de transmissió</td><td>2,45 GHz</td></tr>
+            <tr><td>Distància de transmissió</td><td>150 milions km</td></tr>
+        </tbody>
+    </table>
+
+    <h3>4.3 Transmissió per Microones</h3>
+    <p>La transmissió d'energia utilitza el principi de rectenna (antena rectificadora) amb una freqüència de 2,45 GHz per minimitzar les pèrdues atmosfèriques.</p>
+
+    <div class="formula">
+        <div class="equation">η_transmissió = (λ² / (16π²d²)) × G_tx × G_rx</div>
+        <div class="equation-label">(4.2) - Eficiència de transmissió</div>
+    </div>
+
+    <h2 id="propulsion">5. Propulsió Espacial</h2>
+
+    <h3>5.1 Motor de Fusió Nuclear</h3>
+    <p>El sistema de propulsió utilitza la reacció de fusió per accelerar plasma a velocitats properes a la de la llum, aconseguint impuls específic de 10⁶ segons.</p>
+
+    <div class="formula">
+        <div class="equation">I_sp = v_e / g₀</div>
+        <div class="equation-label">(5.1) - Impuls específic</div>
+    </div>
+
+    <p>On <span class="code">v_e</span> és la velocitat d'exhauriment i <span class="code">g₀</span> és l'acceleració gravitatòria terrestre (9,81 m/s²).</p>
+
+    <h3>5.2 Aplicacions</h3>
+    <ul>
+        <li>Transport de càrrega a Mart (6 mesos)</li>
+        <li>Missions a Júpiter i Saturn (2-3 anys)</li>
+        <li>Exploració del cinturó de Kuiper</li>
+        <li>Defensa planetària (asteroides)</li>
+    </ul>
+
+    <h2 id="economics">6. Anàlisi Econòmica</h2>
+
+    <h3>6.1 Pressupost General</h3>
+
+    <table class="budget-table">
+        <thead>
+            <tr>
+                <th>Categoria</th>
+                <th>Cost</th>
+                <th>% del Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>R+D Reactor de Fusió</td><td>4.200 M€</td><td>35%</td></tr>
+            <tr><td>Construcció Planta Pilot</td><td>2.800 M€</td><td>23%</td></tr>
+            <tr><td>Programa de Satèl·lits Dyson</td><td>3.500 M€</td><td>29%</td></tr>
+            <tr><td>Propulsió Espacial</td><td>850 M€</td><td>7%</td></tr>
+            <tr><td>Operacions i Manteniment (5 anys)</td><td>650 M€</td><td>6%</td></tr>
+            <tr class="highlight"><td><strong>TOTAL</strong></td><td><strong>12.000 M€</strong></td><td><strong>100%</strong></td></tr>
+        </tbody>
+    </table>
+
+    <h3>6.2 Retorn de la Inversió</h3>
+    <p>El projecte té un període de retorn estimat de 8 anys, amb beneficis acumulats de 500.000 milions d'euros en 20 anys d'operació.</p>
+
+    <div class="formula">
+        <div class="equation">ROI = (Beneficis - Cost) / Cost × 100</div>
+        <div class="equation-label">(6.1) - Retorn de la inversió</div>
+    </div>
+
+    <h2 id="timeline">7. Cronograma del Projecte</h2>
+
+    <h3>7.1 Fases Principals</h3>
+    <ul>
+        <li><strong>2025-2027:</strong> Desenvolupament del reactor HD-1 (fase 1)</li>
+        <li><strong>2028-2030:</strong> Construcció de la planta pilot</li>
+        <li><strong>2031-2033:</strong> Llançament dels primers satèl·lits Dyson</li>
+        <li><strong>2034-2036:</strong> Escalat a producció comercial</li>
+        <li><strong>2037+:</strong> Desplegament global i expansió</li>
+    </ul>
+
+    <h3>7.2 Fites Tècniques</h3>
+    <ul>
+        <li>Q > 1 (energia neta positiva) - 2026</li>
+        <li>Primer plasma estable - 2027</li>
+        <li>Potència de 100 MW - 2029</li>
+        <li>Primer satèl·lit operatiu - 2032</li>
+        <li>Energia comercial - 2035</li>
+    </ul>
+
+    <h2 id="conclusion">8. Conclusions</h2>
+
+    <p>El projecte Helios Dynamics representa un salt quàntic en la tecnologia energètica sostenible. La combinació de fusió nuclear i energia solar espacial ofereix una solució completa per als desafiaments energètics globals del segle XXI.</p>
+
+    <p>Amb una inversió inicial de 12.000 milions d'euros, el projecte generarà:</p>
+    <ul>
+        <li>500 GW d'energia neta</li>
+        <li>Reducció del 85% en emissions de CO₂</li>
+        <li>2 milions de llocs de treball</li>
+        <li>Estalvis energètics de 500.000 milions d'euros</li>
+    </ul>
+
+    <div class="sidebar">
+        <h4>Impacte Ambiental</h4>
+        <p>El projecte Helios Dynamics eliminarà completament les emissions de CO₂ associades a la generació d'energia, contribuint significativament als objectius de l'Acord de París i la transició cap a una economia de zero emissions.</p>
+    </div>
+
+    <h2 id="references">Referències</h2>
+
+    <ol>
+        <li>International Energy Agency. (2023). World Energy Outlook 2023.</li>
+        <li>ITER Organization. (2024). Technical Specifications.</li>
+        <li>NASA. (2022). Space Solar Power Studies.</li>
+        <li>European Commission. (2023). Clean Energy Transition Report.</li>
+        <li>Dyson, F. J. (1960). Search for Artificial Stellar Sources of Infrared Radiation. Science.</li>
+    </ol>
+
+    <div class="page-break"></div>
+
+    <h2>Apèndix A: Càlculs Detallats</h2>
+
+    <h3>A.1 Eficiència del Reactor de Fusió</h3>
+
+    <div class="formula">
+        <div class="equation">η_total = η_fusió × η_termal × η_elèctrica</div>
+        <div class="equation-label">(A.1) - Eficiència total del sistema</div>
+    </div>
+
+    <p>On:</p>
+    <ul>
+        <li>η_fusió = 0,4 (eficiència de la reacció de fusió)</li>
+        <li>η_termal = 0,5 (eficiència de conversió tèrmica)</li>
+        <li>η_elèctrica = 0,35 (eficiència del generador)</li>
+    </ul>
+
+    <div class="formula">
+        <div class="equation">η_total = 0,4 × 0,5 × 0,35 = 0,07 (7%)</div>
+        <div class="equation-label">(A.2) - Càlcul numèric</div>
+    </div>
+
+    <h3>A.2 Energia Solar Espacial</h3>
+
+    <div class="formula">
+        <div class="equation">E_solar = I × A × t × η</div>
+        <div class="equation-label">(A.3) - Energia solar captada</div>
+    </div>
+
+    <p>Paràmetres:</p>
+    <ul>
+        <li>I = 1366 W/m² (constant solar)</li>
+        <li>A = 2.500 m² (àrea del satèl·lit)</li>
+        <li>t = 8760 h/any (hores per any)</li>
+        <li>η = 0,28 (eficiència de conversió)</li>
+    </ul>
+
+    <div class="formula">
+        <div class="equation">E_solar = 1366 × 2500 × 8760 × 0,28 = 9,4 × 10¹² J/any</div>
+        <div class="equation-label">(A.4) - Energia anual per satèl·lit</div>
+    </div>
+
+    <div class="formula">
+        <div class="equation">P_mitjana = 9,4 × 10¹² / (365 × 24 × 3600) = 1,2 × 10⁹ W = 1,2 GW</div>
+        <div class="equation-label">(A.5) - Potència mitjana</div>
+    </div>
+
+    <h3>A.3 Anàlisi Cost-Benefici</h3>
+
+    <div class="formula">
+        <div class="equation">LCOE = (CAPEX + OPEX) / (E × t)</div>
+        <div class="equation-label">(A.6) - Cost levelitzat d'energia</div>
+    </div>
+
+    <p>On CAPEX és la inversió inicial, OPEX són els costos operatius, E és l'energia generada i t és el temps d'operació.</p>
+
+    <div class="diagram">
+        <h3>Diagrama del Reactor HD-1</h3>
+        <svg width="400" height="300" viewBox="0 0 400 300">
+          <circle cx="200" cy="150" r="100" fill="none" stroke="#0ea5e9" stroke-width="4"/>
+          <circle cx="200" cy="150" r="60" fill="#ff6b35" opacity="0.7"/>
+          <rect x="180" y="40" width="40" height="10" fill="#0284c7"/>
+          <rect x="180" y="250" width="40" height="10" fill="#0284c7"/>
+          <rect x="40" y="130" width="10" height="40" fill="#0284c7"/>
+          <rect x="350" y="130" width="10" height="40" fill="#0284c7"/>
+          <text x="200" y="160" text-anchor="middle" font-family="Inter" font-size="14" fill="#1a1a1a">Plasma</text>
+          <text x="200" y="30" text-anchor="middle" font-family="Space Grotesk" font-size="16" fill="#0ea5e9">Reactor HD-1</text>
+        </svg>
+
+        <h3>Flux d'Energia Solar Espacial</h3>
+        <svg width="500" height="200" viewBox="0 0 500 200">
+          <defs>
+            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+              <polygon points="0 0, 10 3.5, 0 7" fill="#0ea5e9" />
+            </marker>
+          </defs>
+          <circle cx="50" cy="100" r="20" fill="#ffd700"/>
+          <text x="50" y="125" text-anchor="middle" font-family="Inter" font-size="12">Sol</text>
+          <line x1="70" y1="100" x2="120" y2="100" stroke="#0ea5e9" stroke-width="2" marker-end="url(#arrowhead)"/>
+          <rect x="120" y="80" width="40" height="40" fill="#4ade80"/>
+          <text x="140" y="125" text-anchor="middle" font-family="Inter" font-size="12">Panells Solars</text>
+          <line x1="160" y1="100" x2="210" y2="100" stroke="#0ea5e9" stroke-width="2" marker-end="url(#arrowhead)"/>
+          <rect x="210" y="85" width="40" height="30" fill="#f59e0b"/>
+          <text x="230" y="125" text-anchor="middle" font-family="Inter" font-size="12">Microones</text>
+          <line x1="250" y1="100" x2="300" y2="100" stroke="#0ea5e9" stroke-width="2" marker-end="url(#arrowhead)"/>
+          <rect x="300" y="85" width="40" height="30" fill="#8b5cf6"/>
+          <text x="320" y="125" text-anchor="middle" font-family="Inter" font-size="12">Rectenna</text>
+          <line x1="340" y1="100" x2="390" y2="100" stroke="#0ea5e9" stroke-width="2" marker-end="url(#arrowhead)"/>
+          <rect x="390" y="90" width="30" height="20" fill="#ef4444"/>
+          <text x="405" y="125" text-anchor="middle" font-family="Inter" font-size="12">Xarxa</text>
+        </svg>
+
+        <h3>Projecció Econòmica</h3>
+        <svg width="400" height="300" viewBox="0 0 400 300">
+          <rect x="50" y="200" width="40" height="80" fill="#0ea5e9"/>
+          <rect x="110" y="180" width="40" height="100" fill="#0ea5e9"/>
+          <rect x="170" y="150" width="40" height="130" fill="#0ea5e9"/>
+          <rect x="230" y="100" width="40" height="180" fill="#0ea5e9"/>
+          <rect x="290" y="50" width="40" height="230" fill="#0ea5e9"/>
+          <text x="70" y="290" text-anchor="middle" font-family="Inter" font-size="12">2025</text>
+          <text x="130" y="290" text-anchor="middle" font-family="Inter" font-size="12">2026</text>
+          <text x="190" y="290" text-anchor="middle" font-family="Inter" font-size="12">2027</text>
+          <text x="250" y="290" text-anchor="middle" font-family="Inter" font-size="12">2028</text>
+          <text x="310" y="290" text-anchor="middle" font-family="Inter" font-size="12">2029</text>
+          <text x="200" y="20" text-anchor="middle" font-family="Space Grotesk" font-size="16" fill="#0ea5e9">Projecció Econòmica (M€)</text>
+        </svg>
+    </div>
+
+</body>
+</html>

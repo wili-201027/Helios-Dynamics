@@ -1,13 +1,19 @@
 import { useCMS } from '@/contexts/CMSContext';
 import { motion } from 'framer-motion';
 import heroImg from '@/assets/hero-fusion.jpg';
+import reactorImg from '@/assets/reactor-tokamak-hd1.jpg';
+import propulsorImg from '@/assets/propulsor-interplanetari.jpg';
+import eixamImg from '@/assets/eixam-dyson-alpha.jpg';
+import estacioImg from '@/assets/estacio-orbital-helios.jpg';
+import plasmaImg from '@/assets/plasma-confinat.jpg';
 import { ArrowDown, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, CartesianGrid, Legend } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip as RechartsTooltip, ResponsiveContainer, LineChart, Line, CartesianGrid, Legend } from 'recharts';
 import useEmblaCarousel from 'embla-carousel-react';
 import { useCallback } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 const energyComparison = [
   { name: 'Carbó', output: 1, emissions: 820, color: 'hsl(0 40% 40%)' },
@@ -37,11 +43,11 @@ const tableData = [
 ];
 
 const carouselSlides = [
-  { gradient: 'from-primary/30 to-accent/20', title: 'Reactor Tokamak HD-1', desc: 'Primer reactor comercial de fusió' },
-  { gradient: 'from-nebula/30 to-primary/20', title: 'Propulsor Interplanetari', desc: 'Motor de fusió per a viatges a Mart' },
-  { gradient: 'from-accent/30 to-fusion/20', title: 'Eixam de Dyson Alpha', desc: '50 satèl·lits en òrbita solar propera' },
-  { gradient: 'from-primary/20 to-nebula/30', title: 'Estació Orbital Helios', desc: 'Base de llançament en òrbita terrestre' },
-  { gradient: 'from-fusion/20 to-primary/30', title: 'Plasma Confinat', desc: '150 milions de graus Celsius de precisió' },
+  { image: reactorImg, title: 'Reactor Helicoidal HD-1', desc: 'Primer reactor comercial de fusió' },
+  { image: propulsorImg, title: 'Propulsor Interplanetari', desc: 'Motor de fusió per a viatges a Mart' },
+  { image: eixamImg, title: 'Eixam de Dyson Alpha', desc: '50 satèl·lits en òrbita solar propera' },
+  { image: estacioImg, title: 'Estació Orbital Helios', desc: 'Base de llançament en òrbita terrestre' },
+  { image: plasmaImg, title: 'Plasma Confinat', desc: '150 milions de graus Celsius de precisió' },
 ];
 
 const fade = {
@@ -78,11 +84,11 @@ const Index = () => {
               {getContent('home.heroSubtitle')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading" asChild>
-                <a href="#problem">Descobrir més <ArrowDown className="w-4 h-4 ml-1" /></a>
+              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-heading" onClick={() => document.getElementById('problem')?.scrollIntoView({ behavior: 'smooth' })}>
+                Descobrir més <ArrowDown className="w-4 h-4 ml-1" />
               </Button>
               <Button size="lg" variant="outline" className="font-heading" asChild>
-                <a href="/solucio">Veure solucions</a>
+                <a href="#/solucio">Veure solucions</a>
               </Button>
             </div>
           </motion.div>
@@ -98,9 +104,13 @@ const Index = () => {
                 <div className="flex">
                   {carouselSlides.map((slide, i) => (
                     <div key={i} className="flex-[0_0_100%] min-w-0 md:flex-[0_0_50%] lg:flex-[0_0_33.333%] px-2">
-                      <div className={`glass-card aspect-[4/3] flex flex-col justify-end bg-gradient-to-br ${slide.gradient}`}>
-                        <h4 className="font-heading font-bold text-lg">{slide.title}</h4>
-                        <p className="text-sm text-muted-foreground">{slide.desc}</p>
+                      <div className="glass-card aspect-[4/3] relative overflow-hidden rounded-2xl">
+                        <img src={slide.image} alt={slide.title} className="w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+                        <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                          <h4 className="font-heading font-bold text-lg">{slide.title}</h4>
+                          <p className="text-sm text-gray-200">{slide.desc}</p>
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -155,7 +165,22 @@ const Index = () => {
                       <TableCell className="font-medium">{row.font}</TableCell>
                       <TableCell>{row.consum}</TableCell>
                       <TableCell>{row.emissions}</TableCell>
-                      <TableCell>{row.renovable}</TableCell>
+                      <TableCell>
+                        {row.renovable === 'Sí*' ? (
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <span className="cursor-help">{row.renovable}</span>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p className="max-w-xs">
+                                L'energia nuclear no emet CO₂ durant la generació, però produeix residus radioactius que requereixen gestió especial. Es considera renovable perquè l'urani és abundant i no s'esgota ràpidament.
+                              </p>
+                            </TooltipContent>
+                          </Tooltip>
+                        ) : (
+                          row.renovable
+                        )}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -175,9 +200,19 @@ const Index = () => {
                 <h4 className="font-heading font-semibold mb-4">Sortida Energètica per Font (GW per unitat)</h4>
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart data={energyComparison}>
-                    <XAxis dataKey="name" tick={{ fontSize: 11, fill: 'hsl(215 20% 55%)' }} />
-                    <YAxis tick={{ fontSize: 11, fill: 'hsl(215 20% 55%)' }} />
-                    <Tooltip contentStyle={{ background: 'hsl(222 40% 8%)', border: '1px solid hsl(220 30% 18%)', borderRadius: 8 }} />
+                    <XAxis dataKey="name" tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }} />
+                    <YAxis tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }} />
+                    <RechartsTooltip
+                      contentStyle={{
+                        background: 'hsl(var(--popover))',
+                        border: '1px solid hsl(var(--border))',
+                        borderRadius: '8px',
+                        color: 'hsl(var(--popover-foreground))',
+                        fontSize: '12px',
+                        boxShadow: '0 4px 12px hsl(var(--muted-foreground) / 0.3)',
+                      }}
+                      labelStyle={{ color: 'hsl(var(--primary))', fontWeight: 'bold' }}
+                    />
                     <Bar dataKey="output" fill="hsl(190 100% 50%)" radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
@@ -186,13 +221,40 @@ const Index = () => {
                 <h4 className="font-heading font-semibold mb-4">Projecció de Demanda Energètica (EJ/any)</h4>
                 <ResponsiveContainer width="100%" height={300}>
                   <LineChart data={demandProjection}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(220 30% 18%)" />
-                    <XAxis dataKey="year" tick={{ fontSize: 11, fill: 'hsl(215 20% 55%)' }} />
-                    <YAxis tick={{ fontSize: 11, fill: 'hsl(215 20% 55%)' }} />
-                    <Tooltip contentStyle={{ background: 'hsl(222 40% 8%)', border: '1px solid hsl(220 30% 18%)', borderRadius: 8 }} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                    <XAxis dataKey="year" tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }} />
+                    <YAxis tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }} />
+                    <RechartsTooltip
+                      contentStyle={{
+                        background: 'hsl(var(--popover))',
+                        border: '1px solid hsl(var(--border))',
+                        borderRadius: '8px',
+                        color: 'hsl(var(--popover-foreground))',
+                        fontSize: '12px',
+                        boxShadow: '0 4px 12px hsl(var(--muted-foreground) / 0.3)',
+                      }}
+                      labelStyle={{ color: 'hsl(var(--primary))', fontWeight: 'bold' }}
+                    />
                     <Legend />
-                    <Line type="monotone" dataKey="actual" name="Actual" stroke="hsl(25 95% 55%)" strokeWidth={2} dot={{ r: 4 }} />
-                    <Line type="monotone" dataKey="predicted" name="Projecció" stroke="hsl(190 100% 50%)" strokeWidth={2} strokeDasharray="5 5" dot={{ r: 4 }} />
+                    <Line
+                      type="monotone"
+                      dataKey="actual"
+                      name="Actual"
+                      stroke="hsl(25 95% 55%)"
+                      strokeWidth={2}
+                      dot={{ r: 4, fill: 'hsl(25 95% 55%)' }}
+                      activeDot={{ r: 6, fill: 'hsl(25 95% 55%)', stroke: 'hsl(210 40% 96%)', strokeWidth: 2 }}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="predicted"
+                      name="Projecció"
+                      stroke="hsl(190 100% 50%)"
+                      strokeWidth={2}
+                      strokeDasharray="5 5"
+                      dot={{ r: 4, fill: 'hsl(190 100% 50%)' }}
+                      activeDot={{ r: 6, fill: 'hsl(190 100% 50%)', stroke: 'hsl(210 40% 96%)', strokeWidth: 2 }}
+                    />
                   </LineChart>
                 </ResponsiveContainer>
               </div>

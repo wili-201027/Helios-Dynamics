@@ -144,6 +144,26 @@ const DysonBuilder = () => {
               +10 Satèl·lits
             </Button>
           </div>
+
+          {/* Phase indicators */}
+          <div className="space-y-2">
+            <p className="text-xs text-muted-foreground">Fases de desplegament:</p>
+            <div className="flex gap-1">
+              {[5, 10, 20, 40].map(phase => (
+                <button
+                  key={phase}
+                  onClick={() => setSatellites(phase)}
+                  className={`flex-1 h-8 rounded text-xs font-medium transition-all ${
+                    satellites >= phase
+                      ? 'bg-primary text-primary-foreground'
+                      : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                  }`}
+                >
+                  {phase}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
